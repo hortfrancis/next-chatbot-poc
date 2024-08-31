@@ -1,3 +1,5 @@
+'use client';
+
 import DefaultLayout from '@/app/layouts/DefaultLayout';
 import ConversationChat from '@/app/components/ConversationChat';
 
