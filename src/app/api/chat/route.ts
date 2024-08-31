@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import chat from '@/services/openai';
+import { chat } from '@/services/openai';
 
 export async function POST(req: NextRequest) {
     try {

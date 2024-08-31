@@ -16,12 +16,20 @@ export default function Home() {
 
       <nav className="space-y-4">
         <h2 className="text-3xl font-bold">Contents</h2>
-        <ul className="list-disc list-inside">
+        <ul className="list-disc list-inside flex flex-col gap-4">
           <li>
             <Link href="/simple-chatbot" className="text-xl font-semibold  text-blue-500 hover:underline">Simple Chatbot</Link>
             <div className="flex flex-col gap-1 pl-5 mt-1 text-sm text-slate-600">
               <p>A chatbot interface that let&apos;s the user send a single query to a langugage model and view the response.</p>
               <p>New queries and responses replace the previous one.</p>
+              <p>Powered by OpenAI&apos;s GPT-4 Turbo</p>
+            </div>
+          </li>
+          <li>
+            <Link href="/conversation-chatbot" className="text-xl font-semibold  text-blue-500 hover:underline">Conversation Chatbot</Link>
+            <div className="flex flex-col gap-1 pl-5 mt-1 text-sm text-slate-600">
+              <p>A chatbot interface that allows the user to have a conversation with a language model.</p>
+              <p>Each message is added to the conversation history -- up to 5 question-answer interactions.</p>
               <p>Powered by OpenAI&apos;s GPT-4 Turbo</p>
             </div>
           </li>

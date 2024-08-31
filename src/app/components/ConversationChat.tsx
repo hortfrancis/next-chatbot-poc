@@ -1,34 +1,38 @@
 'use client';
 
 import { useState } from 'react';
+import useConversation from '@/app/hooks/useConversation';  
 
-export default function Chat() {
+export default function ConversationChat() {
     const [inputText, setInputText] = useState<string>('');
-    const [response, setResponse] = useState<string | null>(null);
     const [sending, setSending] = useState<boolean>(false);
+    const { conversation, addMessage } = useConversation();
 
     const sendMessage = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!inputText.trim()) return;  // Prevent empty submissions
+        if (!inputText.trim()) return;
+
+        addMessage("user", inputText);
         setSending(true);
+
         try {
-            const res = await fetch('/api/chat', {
+            const res = await fetch('/api/conversation-chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: inputText }),
+                body: JSON.stringify({ conversation: conversation.concat({ role: "user", content: inputText }) }),
             });
             const data = await res.json();
-            setResponse(data.response);
+            addMessage("assistant", data.response);
         } catch (error) {
-            console.error('error:', error);
-            setResponse('Something went wrong. Please try again.');
+            console.error('Error:', error);
+            addMessage("assistant", "Something went wrong. Please try again.");
         } finally {
-            setSending(false);
             setInputText('');  // Clear the input field after sending
+            setSending(false);
         }
-    }
+    };
 
     return (
         <div className="w-full max-w-2xl mx-auto my-8 p-6 bg-white rounded shadow-md">
@@ -55,11 +59,15 @@ export default function Chat() {
                 </div>
             )}
 
-            {response && (
-                <div className="mt-4 p-4 bg-gray-100 border rounded">
-                    <p><strong>Response:</strong> {response}</p>
-                </div>
-            )}
+            <div className="mt-4 space-y-2">
+                {conversation.map((msg, index) => (
+                    <div key={index} className={`p-2 rounded ${msg.role === 'user' ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left'}`}>
+                        <p className="text-sm">
+                            <strong>{msg.role === 'user' ? 'You' : 'Chatbot'}:</strong> {msg.content}
+                        </p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
