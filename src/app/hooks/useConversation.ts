@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
 const MAX_HISTORY_LENGTH = 5; // Max number of exchanges to store (user and bot messages)
